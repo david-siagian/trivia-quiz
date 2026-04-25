@@ -68,22 +68,24 @@ h3 {
 }
 
 option {
-  font-size: 16px;
+  font-size: clamp(16px, 2vw, 20px);
 }
 
 .dropdown-title {
   display: block;
   color: #1f406b;
+  font-size: clamp(12px, 2vw, 20px);
 }
 
 .select-dropdown {
   width: 100%;
+  min-height: 10px;
   padding: 10px;
   border-radius: 8px;
   border: 1px solid #4a6fa5;
   background-color: #fff;
   cursor: pointer;
-  font-size: 16px;
+  font-size: clamp(12px, 2vw, 20px);
 }
 
 .header-div {
