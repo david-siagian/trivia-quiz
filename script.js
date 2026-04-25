@@ -1,15 +1,67 @@
 "use strict";
 
 const mainQuiz = document.querySelector(".main-quiz");
-const startBtn = document.querySelector("#start-btn");
-
-const totalQuestion = document.querySelector("#total-question");
-const difficultyCategory = document.querySelector("#difficulty-category");
-const quizCategory = document.querySelector("#quiz-category");
 
 let quizList = [];
 let score = 0;
 let currentQuizNumber = 0;
+
+const init = () => {
+  const htmlInit = `
+  <p class="quiz-title">What kind of quiz do you want?</p>
+  <div class="starter">
+    <div class="total-question-div">
+          <label for="total-question" class="dropdown-title"
+            >Total Question:</label
+          >
+          <select name="total-question" id="total-question" class="select-dropdown">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+    </div>
+    <div class="category-div">
+          <label for="quiz-category" class="dropdown-title"
+            >Category:</label
+          >
+          <select name="quiz-category" id="quiz-category" class="select-dropdown">
+            <option value="17">Science & Nature</option>
+            <option value="22">Geography</option>
+            <option value="28">Vehicle</option>
+          </select>
+    </div>
+    <div class="difficulty-div">
+          <label for="difficulty-category" class="dropdown-title"
+            >Difficulty:</label
+          >
+          <select name="difficulty-category" id="difficulty-category" class="select-dropdown">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+    </div>
+          <button class="start-btn">Start</button>
+        </div>`;
+  mainQuiz.innerHTML = htmlInit;
+  document.querySelector(".start-btn").addEventListener("click", startQuiz);
+};
+
+const startQuiz = () => {
+  const startBtn = document.querySelector("#start-btn");
+  const totalQuestion = document.querySelector("#total-question");
+  const difficultyCategory = document.querySelector("#difficulty-category");
+  const quizCategory = document.querySelector("#quiz-category");
+
+  const total = totalQuestion.value || "10";
+  const category = quizCategory.value || "17";
+  const difficulty = difficultyCategory.value || "easy";
+
+  quizList = [];
+  score = 0;
+  currentQuizNumber = 0;
+  getQuizzes(total, category, difficulty);
+};
 
 const getQuizzes = async (
   total = "10",
@@ -38,6 +90,7 @@ const renderQuiz = async () => {
     correctAnswer,
   ];
   const randomizedOptions = randomizeOptions(questionOptions);
+
   const quizMainHtml = `
   <p class="quiz-title">Answer the quiz and see how good your knowledge</p>
     <div class="quiz-content quiz-div">
@@ -54,6 +107,7 @@ const renderQuiz = async () => {
         </div>
     </div>
     `;
+
   mainQuiz.innerHTML = quizMainHtml;
   document.querySelector(".quiz-options").addEventListener("click", (e) => {
     if (e.target.classList.contains("options-button"))
@@ -79,30 +133,19 @@ const handleAnswer = (answer, correctAnswer) => {
   if (currentQuizNumber < quizList.length) {
     renderQuiz();
   } else {
-    renderResut();
+    renderFinalResut();
   }
 };
 
-const renderResut = () => {
+const renderFinalResut = () => {
   const resultHtml = `
   <p class="quiz-title">Quiz Complete</p>
     <div class="quiz-result quiz-div">
     <p class="final-result">You scored ${score} out of ${quizList.length}</p>
+    <button class="restart-btn">Restart Quiz</button>
     </div>`;
-
   mainQuiz.innerHTML = resultHtml;
+  document.querySelector(".restart-btn").addEventListener("click", init);
 };
 
-const startQuiz = () => {
-  quizList = [];
-  score = 0;
-  currentQuizNumber = 0;
-  mainQuiz.innerHTML = "";
-
-  const total = totalQuestion.value || "10";
-  const category = quizCategory.value || "17";
-  const difficulty = difficultyCategory.value || "easy";
-  getQuizzes(total, category, difficulty);
-};
-
-document.querySelector("#start-btn").addEventListener("click", startQuiz);
+init();
