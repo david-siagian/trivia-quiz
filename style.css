@@ -45,7 +45,7 @@ h3 {
 
 .starter {
   display: grid;
-  grid-template-columns: 20vw 20vw 20vw;
+  grid-template-columns: 30vw 30vw 30vw;
   gap: 10px;
 }
 
