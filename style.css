@@ -67,6 +67,11 @@ h3 {
   background-color: #132236;
 }
 
+.start-btn:active,
+.restart-btn:active {
+  background-color: #0d141d;
+}
+
 option {
   font-size: clamp(16px, 2vw, 20px);
 }
@@ -156,6 +161,11 @@ option {
 
 .options-button:hover {
   background-color: #4a6896;
+  color: #fff;
+}
+
+.options-button:active {
+  background-color: #132236;
   color: #fff;
 }
 
