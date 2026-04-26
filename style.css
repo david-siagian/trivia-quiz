@@ -159,10 +159,14 @@ option {
   width: 100%;
 }
 
-.options-button:hover {
-  background-color: #4a6896;
-  color: #fff;
-}
+/* .options-button:hover {
+  background: transparent;
+  /* color: #fff;
+} */
+/* 
+.clicked-option:hover {
+  background-color: #0d141d;
+} */
 
 .options-button:active {
   background-color: #132236;
@@ -184,4 +188,21 @@ option {
   border: 1px solid #4a6fa5;
   padding: 20px;
   background-color: #ffffff;
+}
+
+.answer-choosen {
+  background-color: #f43636;
+  color: #fff;
+}
+
+.correct-answer {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.question-number-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: clamp(10px, 1.5vw, 18px);
 }

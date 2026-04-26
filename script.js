@@ -95,7 +95,10 @@ const renderQuiz = async () => {
   <p class="quiz-title">Answer the quiz and see how good your knowledge</p>
     <div class="quiz-content quiz-div">
     <div class="question-div">
+      <div class="question-number-score">
         <p class="question-number">Question ${currentQuizNumber + 1} of ${quizList.length}</p>
+        <p class="score">Correct answer: ${score}</p>
+      </div>
         <p class="quiz-question">${questionQuiz}</p>
         </div>
         <div class="quiz-options">
@@ -110,8 +113,17 @@ const renderQuiz = async () => {
 
   mainQuiz.innerHTML = quizMainHtml;
   document.querySelector(".quiz-options").addEventListener("click", (e) => {
-    if (e.target.classList.contains("options-button"))
-      handleAnswer(e.target.dataset.answer, correctAnswer);
+    if (e.target.classList.contains("options-button")) {
+      e.target.style.removeProperty("background");
+      document.querySelectorAll(".options-button").forEach((button) => {
+        if (button.dataset.answer === correctAnswer) {
+          button.classList.add("correct-answer");
+        }
+        e.target.classList.add("answer-choosen");
+        button.classList.add("clicked-option");
+      });
+    }
+    handleAnswer(e.target.dataset.answer, correctAnswer);
   });
 };
 
@@ -124,15 +136,17 @@ const randomizeOptions = (optionsList) => {
   return randomized;
 };
 
-const handleAnswer = (answer, correctAnswer) => {
+const handleAnswer = async (answer, correctAnswer) => {
   console.log(answer, correctAnswer);
   if (answer === correctAnswer) {
     score++;
   }
   currentQuizNumber++;
   if (currentQuizNumber < quizList.length) {
+    await sleep(2000);
     renderQuiz();
   } else {
+    await sleep(2000);
     renderFinalResut();
   }
 };
@@ -146,6 +160,10 @@ const renderFinalResut = () => {
     </div>`;
   mainQuiz.innerHTML = resultHtml;
   document.querySelector(".restart-btn").addEventListener("click", init);
+};
+
+const sleep = async (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 init();
