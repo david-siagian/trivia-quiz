@@ -206,3 +206,12 @@ option {
   align-items: center;
   font-size: clamp(10px, 1.5vw, 18px);
 }
+
+.player-name-div {
+  grid-column: 1/ -1;
+  margin-bottom: 5vh;
+}
+
+.select-dropdown.selected {
+  color: #000000;
+}

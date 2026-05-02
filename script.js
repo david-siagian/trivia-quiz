@@ -6,10 +6,26 @@ let quizList = [];
 let score = 0;
 let currentQuizNumber = 0;
 
+let startBtn;
+let totalQuestion;
+let difficultyCategory;
+let quizCategory;
+let playerName;
+
 const init = () => {
   const htmlInit = `
-  <p class="quiz-title">What kind of quiz do you want?</p>
+  <p class="quiz-title">Enter your name and type of quiz</p>
   <div class="starter">
+    <div class="player-name-div">
+    <label for="player-name" class="dropdown-title"
+            >Who is this?</label
+          >
+          <select name="player-name" id="player-name" class="select-dropdown">
+            <option value="" disabled selected>???</option>
+            <option value="jeremia">Jeremia</option>
+            <option value="joshua">Joshua</option>
+            </select>
+    </div>
     <div class="total-question-div">
           <label for="total-question" class="dropdown-title"
             >Total Question:</label
@@ -48,10 +64,11 @@ const init = () => {
 };
 
 const startQuiz = () => {
-  const startBtn = document.querySelector("#start-btn");
-  const totalQuestion = document.querySelector("#total-question");
-  const difficultyCategory = document.querySelector("#difficulty-category");
-  const quizCategory = document.querySelector("#quiz-category");
+  startBtn = document.querySelector("#start-btn");
+  totalQuestion = document.querySelector("#total-question");
+  difficultyCategory = document.querySelector("#difficulty-category");
+  quizCategory = document.querySelector("#quiz-category");
+  playerName = document.querySelector("#player-name");
 
   const total = totalQuestion.value || "10";
   const category = quizCategory.value || "17";
@@ -74,7 +91,6 @@ const getQuizzes = async (
     );
     const quizData = await quizUrl.json();
     quizList = quizData.results;
-    console.log(quizList);
     renderQuiz();
   } catch (error) {
     console.error("Error fetching quiz data:", error);
@@ -82,7 +98,6 @@ const getQuizzes = async (
 };
 
 const renderQuiz = async () => {
-  console.log(quizList);
   const questionQuiz = quizList[currentQuizNumber].question;
   const correctAnswer = quizList[currentQuizNumber].correct_answer;
   const questionOptions = [
@@ -155,7 +170,7 @@ const renderFinalResut = () => {
   const resultHtml = `
   <p class="quiz-title">Quiz Complete</p>
     <div class="quiz-result quiz-div">
-    <p class="final-result">You scored ${score} out of ${quizList.length}</p>
+    <p class="final-result">Congratz ${playerName}! You scored ${score} out of ${quizList.length}</p>
     <button class="restart-btn">Restart Quiz</button>
     </div>`;
   mainQuiz.innerHTML = resultHtml;
