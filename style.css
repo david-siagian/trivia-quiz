@@ -215,3 +215,7 @@ option {
 .select-dropdown.selected {
   color: #000000;
 }
+
+#jj {
+  font-size: clamp(30px, 7vw, 86px);
+}

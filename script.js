@@ -22,8 +22,8 @@ const init = () => {
           >
           <select name="player-name" id="player-name" class="select-dropdown">
             <option value="" disabled selected>???</option>
-            <option value="jeremia">Jeremia</option>
-            <option value="joshua">Joshua</option>
+            <option value=" Jeremia">Jeremia</option>
+            <option value=" Joshua">Joshua</option>
             </select>
     </div>
     <div class="total-question-div">
@@ -42,9 +42,10 @@ const init = () => {
             >Category:</label
           >
           <select name="quiz-category" id="quiz-category" class="select-dropdown">
-            <option value="17">Science & Nature</option>
-            <option value="22">Geography</option>
-            <option value="28">Vehicle</option>
+          <option value="science">Science</option>
+          <option value="general_knowledge">General Knowledge</option>
+            <option value="geography">Geography</option>
+            <option value="history">History</option>
           </select>
     </div>
     <div class="difficulty-div">
@@ -68,10 +69,10 @@ const startQuiz = () => {
   totalQuestion = document.querySelector("#total-question");
   difficultyCategory = document.querySelector("#difficulty-category");
   quizCategory = document.querySelector("#quiz-category");
-  playerName = document.querySelector("#player-name");
+  playerName = document.querySelector("#player-name").value;
 
-  const total = totalQuestion.value || "10";
-  const category = quizCategory.value || "17";
+  const total = totalQuestion.value || "5";
+  const category = quizCategory.value || "general_knowledge";
   const difficulty = difficultyCategory.value || "easy";
 
   quizList = [];
@@ -86,11 +87,15 @@ const getQuizzes = async (
   difficulty = "easy",
 ) => {
   try {
+    // const quizUrl = await fetch(
+    //   `https://opentdb.com/api.php?amount=${total}&category=${category}&difficulty=${difficulty}&type=multiple`,
+    // );
+
     const quizUrl = await fetch(
-      `https://opentdb.com/api.php?amount=${total}&category=${category}&difficulty=${difficulty}&type=multiple`,
+      `https://the-trivia-api.com/v2/questions?limit=${total}&categories=${category}&difficulties=${difficulty}&types=text_choice`,
     );
     const quizData = await quizUrl.json();
-    quizList = quizData.results;
+    quizList = quizData;
     renderQuiz();
   } catch (error) {
     console.error("Error fetching quiz data:", error);
@@ -98,10 +103,10 @@ const getQuizzes = async (
 };
 
 const renderQuiz = async () => {
-  const questionQuiz = quizList[currentQuizNumber].question;
-  const correctAnswer = quizList[currentQuizNumber].correct_answer;
+  const questionQuiz = quizList[currentQuizNumber].question.text;
+  const correctAnswer = quizList[currentQuizNumber].correctAnswer;
   const questionOptions = [
-    ...quizList[currentQuizNumber].incorrect_answers,
+    ...quizList[currentQuizNumber].incorrectAnswers,
     correctAnswer,
   ];
   const randomizedOptions = randomizeOptions(questionOptions);
@@ -170,7 +175,7 @@ const renderFinalResut = () => {
   const resultHtml = `
   <p class="quiz-title">Quiz Complete</p>
     <div class="quiz-result quiz-div">
-    <p class="final-result">Congratz ${playerName}! You scored ${score} out of ${quizList.length}</p>
+    <p class="final-result">Congratz${playerName}! You scored ${score} out of ${quizList.length}</p>
     <button class="restart-btn">Restart Quiz</button>
     </div>`;
   mainQuiz.innerHTML = resultHtml;
